@@ -1,0 +1,1 @@
+edit stupid-app app.py and requirements.txt to create a databricks app chatbot that curses at you in polish whatever you ask
