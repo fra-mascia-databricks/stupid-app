@@ -1,5 +1,6 @@
 edit stupid-app app.py and requirements.txt to create a databricks app 
-purpose: every time the user types the text should be input in a random alphabet among the following:
-list of languages to use for the user input: chinese, japanese, korean, russian, romance, greek, georgian, farsi, arabic, thai, hindi
+purpose: when the user types the text should be input in a random alphabet among the following:
+list of languages to use for the user input: chinese, japanese, korean, russian, greek, georgian, farsi, arabic, thai, hindi
 the chatbot should answer with "Sorry I don't understand {language of the alphabet input by the user}
-layout: the name of the chat is "Multi-language-assistant" include the flags related to the languages
+layout: the name of the chat is "Databricks Multi Language Agent" include the flags related to the languages
+background:image.png add the databricks logo bottom right
