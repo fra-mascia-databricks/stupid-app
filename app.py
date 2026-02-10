@@ -119,7 +119,7 @@ app.layout = html.Div(style=background_style, children=[
                         LANGUAGES['farsi']['flag'],
                     ])
                 ], className="text-center mb-4 mt-4", style={'color': '#FF3621', 'fontWeight': 'bold'}),
-                html.P("Type anything - 50% chance it transforms into a random language!",
+                html.P("Type anything and watch it transform into random languages!",
                        className="text-center text-muted mb-4"),
             ])
         ]),
@@ -185,63 +185,36 @@ app.layout = html.Div(style=background_style, children=[
 )
 def update_chat(n_clicks, user_message, messages):
     if n_clicks > 0 and user_message:
-        # 50% chance to convert to random script
-        should_convert = random.random() < 0.5
+        # Convert user message to random script (always)
+        converted_text, language_name = convert_to_random_script(user_message)
 
-        if should_convert:
-            # Convert user message to random script
-            converted_text, language_name = convert_to_random_script(user_message)
+        # Add converted user message
+        messages.append({
+            'role': 'user',
+            'content': converted_text,
+            'original': user_message
+        })
 
-            # Add converted user message
-            messages.append({
-                'role': 'user',
-                'content': converted_text,
-                'original': user_message,
-                'converted': True
-            })
-
-            # Generate bot response
-            bot_response = f"Sorry, I don't understand {language_name}"
-            messages.append({
-                'role': 'bot',
-                'content': bot_response
-            })
-        else:
-            # Keep original message
-            messages.append({
-                'role': 'user',
-                'content': user_message,
-                'converted': False
-            })
-
-            # Bot responds normally
-            bot_response = "I understand you! How can I help?"
-            messages.append({
-                'role': 'bot',
-                'content': bot_response
-            })
+        # Generate bot response
+        bot_response = f"Sorry, I don't understand {language_name}"
+        messages.append({
+            'role': 'bot',
+            'content': bot_response
+        })
 
     # Create chat display
     chat_elements = []
     for msg in messages:
         if msg['role'] == 'user':
-            if msg.get('converted'):
-                chat_elements.append(
-                    html.Div([
-                        html.Strong('You: '),
-                        html.Span(msg['content'], style={'fontSize': '18px'}),
-                        html.Br(),
-                        html.Small(f"(Original: {msg.get('original', '')})",
-                                  style={'color': '#999'})
-                    ], style={'marginBottom': '15px', 'color': '#0066cc'})
-                )
-            else:
-                chat_elements.append(
-                    html.Div([
-                        html.Strong('You: '),
-                        html.Span(msg['content'])
-                    ], style={'marginBottom': '15px', 'color': '#0066cc'})
-                )
+            chat_elements.append(
+                html.Div([
+                    html.Strong('You: '),
+                    html.Span(msg['content'], style={'fontSize': '18px'}),
+                    html.Br(),
+                    html.Small(f"(Original: {msg.get('original', '')})",
+                              style={'color': '#999'})
+                ], style={'marginBottom': '15px', 'color': '#0066cc'})
+            )
         else:
             chat_elements.append(
                 html.Div([
